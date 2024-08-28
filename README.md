@@ -5,6 +5,7 @@ to enable the offline access PWA feature for local database web apps.
 ## program steps
 
 input: project directory path (directory name as project name)
+
 variables: project name, cur date, directory tree
 
 preparation:
