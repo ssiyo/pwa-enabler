@@ -21,19 +21,19 @@ The script takes the path to your web project directory as input. It then perfor
 
 1. **Prerequisites:** Make sure you have Python installed.
 
-3. **Installation:** Install the package locally to make the script callable anywhere (from any directory).
+2. **Installation:** Install the package locally to make the script callable anywhere (from any directory).
 
 ```bash
 pip install dist/pwa_enabler-1.0.1-py3-none-any.whl
 ```
 
-2. **Run the script:** Execute the script, providing the absolute path to your web project directory as an argument:
+3. **Run the script:** Execute the script, providing the absolute path to your web project directory as an argument:
 
 ```bash
 pwa-enabler /path/to/your/web/project
 ```
 
-3. **Verify the changes:** Check your project directory for the newly created files (`app.webmanifest`, `register-sw.js`, `sw.js`) and the modifications made to the HTML files.
+4. **Verify the changes:** Check your project directory for the newly created files (`app.webmanifest`, `register-sw.js`, `sw.js`) and the modifications made to the HTML files.
 
 ## Example
 
