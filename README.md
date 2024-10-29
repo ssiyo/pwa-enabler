@@ -1,121 +1,44 @@
-# Enable PWA (Progressive Web App)
+# PWA Enabler Script
 
-to enable the offline access PWA feature for local database web apps.
+This Python script automates the process of converting a standard web project into a Progressive Web App (PWA).  It handles the creation and placement of necessary files like `app.webmanifest`, `register-sw.js`, and `sw.js`,  modifying existing HTML files, and generating a service worker configuration to enable offline capabilities.
 
-## program steps
+## How it Works
 
-input: project directory path (directory name as project name)
-variables: project name, cur date, directory tree
+The script takes the path to your web project directory as input. It then performs the following steps:
 
-preparation:
+1. **Project Analysis:**  The script analyzes the project directory structure, identifying HTML files and other assets. It also gathers information such as the project name (derived from the directory name) and the current date for cache versioning.
 
-- sorting based on extension
-- link manifest file to all .html
-- insert service worker script in index.html
+2. **File Generation:**
+    * **`app.webmanifest`:**  Creates a `app.webmanifest` file containing essential PWA metadata like the app name, icons, display mode, and background/theme colors.
+    * **`register-sw.js`:** Generates a `register-sw.js` script to register the service worker in the browser.
+    * **`sw.js`:**  Creates the `sw.js` service worker file, which includes logic for caching files and handling offline requests. This file includes a dynamically generated list of files to cache based on the project's contents.
 
-######### app.webmanifest ({project name})
+3. **HTML Modification:**  The script injects the necessary `<link>` tag for the `app.webmanifest` into the `<head>` of all HTML files within the project. It also adds the `<script>` tag for the `register-sw.js` file to the `<head>` of the `index.html` file.
 
-```json
-{
-  "name": "$projectName",
-  "short_name": "$projectName",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
-  "icons": [
-    {
-      "src": "icon.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    }
-  ]
-}
+4. **Cache Configuration:** The `sw.js` file is configured to cache all essential project files, ensuring offline access. The script automatically generates the list of files to be cached based on the directory structure. The cache is versioned using the current date to facilitate updates.
+
+## Usage
+
+1. **Prerequisites:** Make sure you have Python installed.
+
+3. **Installation:** Install the package locally to make the script callable anywhere (from any directory).
+
+```bash
+pip install dist/pwa_enabler-1.0.1-py3-none-any.whl
 ```
 
-######### every `<head>` insertion ({current child path})
+2. **Run the script:** Execute the script, providing the absolute path to your web project directory as an argument:
 
-`<link href="$currentChildPath/app.webmanifest" rel="manifest" />`
-
-######### `index.html` `<body>` insertion
-
-`<script src="register-sw.js"></script>`
-
-######### register-sw.js
-
-```js
-if ("serviceWorker" in navigator) {
-    navigator.serviceWorker
-        .register("/sw.js")
-        .then((registration) => {
-            console.log(
-                "Service Worker registered with scope:",
-                registration.scope
-            );
-        })
-        .catch((error) => {
-            console.error(
-                "Service Worker registration failed:",
-                error
-            );
-        });
-}
+```bash
+pwa-enabler /path/to/your/web/project
 ```
 
-######### sw.js ({current date, sorted directory tree})
+3. **Verify the changes:** Check your project directory for the newly created files (`app.webmanifest`, `register-sw.js`, `sw.js`) and the modifications made to the HTML files.
 
-```js
-const CACHE_VERSION = "$currentDate";
-localStorage.setItem("CACHE_VERSION", CACHE_VERSION)
+## Example
 
-// cache files list
-const cf = [
-    "/",
-    $sortedDirectoryTree
-];
-self.addEventListener("install", (event) => {
-    event.waitUntil(
-        caches.open(CACHE_VERSION).then(async (cache) => {
-            console.log("ServiceWorker: Caching files:", cf.length, cf);
-            try {
-                cachedResult = await cache.addAll(cf);
-            } catch (err) {
-                console.error("sw: cache.addAll");
-                for (let f of cf) {
-                    try {
-                        cachedResult = await cache.add(f);
-                    } catch (err) {
-                        console.warn("sw: cache.add", f);
-                    }
-                }
-            }
-            console.log("ServiceWorker: caching ended");
-
-            return cachedResult;
-        })
-    );
-});
-
-self.addEventListener("activate", (event) => {
-    event.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.map((cacheName) => {
-                    if (cacheName !== CACHE_VERSION) {
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
-        })
-    );
-});
-
-self.addEventListener("fetch", (event) => {
-    event.respondWith(
-        caches.match(event.request).then((response) => {
-            return response || fetch(event.request);
-        })
-    );
-});
-
+```bash
+pwa-enabler "c:/Users/me/Documents/my web app"
 ```
+
+This command will process the `my web app` directory and convert it into a PWA.

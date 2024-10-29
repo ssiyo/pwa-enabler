@@ -1,0 +1,12 @@
+README.md
+setup.py
+pwa_enabler/__init__.py
+pwa_enabler/app.webmanifest
+pwa_enabler/pwa_enabler.py
+pwa_enabler/register-sw.js
+pwa_enabler/sw.js
+pwa_enabler.egg-info/PKG-INFO
+pwa_enabler.egg-info/SOURCES.txt
+pwa_enabler.egg-info/dependency_links.txt
+pwa_enabler.egg-info/entry_points.txt
+pwa_enabler.egg-info/top_level.txt
