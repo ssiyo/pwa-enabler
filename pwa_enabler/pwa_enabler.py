@@ -7,6 +7,11 @@ def afterlast(arr, offsetstr):
     return arr[len(arr) - arr[::-1].index(offsetstr[::-1]) :]
 
 
+def get_resource_text(resource_path):
+    resource_content = resource_string(__name__, resource_path)
+    return resource_content.replace(b"\r\n", b"\n").decode("utf-8", errors="ignore")
+
+
 def get_sorted_files(file_list, extensions):
     # sort based on extension
     sortedExts = sorted(extensions)
@@ -65,11 +70,9 @@ def create_pwa_files(directoryPath):
         file_list.append("/sw.js")
 
     # Access template files
-    default_sw = resource_string(__name__, "sw.js").decode("utf-8")
-    default_registration = resource_string(__name__, "register-sw.js").decode("utf-8")
-    default_app_webmanifest = resource_string(__name__, "app.webmanifest").decode(
-        "utf-8"
-    )
+    default_sw = get_resource_text("sw.js")
+    default_registration = get_resource_text("register-sw.js")
+    default_app_webmanifest = get_resource_text("app.webmanifest")
 
     # file creation
     with open(directoryPath + "/app.webmanifest", "w") as f:

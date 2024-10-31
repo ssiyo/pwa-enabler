@@ -1,9 +1,9 @@
 from setuptools import setup, find_packages
 
-
+# building command: python setup.py bdist_wheel
 setup(
     name="pwa-enabler",
-    version="1.0.1",
+    version="1.0.3",
     author="ssiyo",
     url="https://github.com/ssiyo/pwa-enabler",
     packages=find_packages(),
