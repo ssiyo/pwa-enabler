@@ -24,7 +24,7 @@ The script takes the path to your web project directory as input. It then perfor
 2. **Installation:** Install the package locally to make the script callable anywhere (from any directory).
 
 ```bash
-pip install dist/pwa_enabler-1.0.3-py3-none-any.whl
+pip install dist/pwa_enabler-1.0.4-py3-none-any.whl
 ```
 
 3. **Run the script:** Execute the script, providing the absolute or **relative** path to your web project directory as an argument:

@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 # building command: python setup.py bdist_wheel
 setup(
     name="pwa-enabler",
-    version="1.0.3",
+    version="1.0.4",
     author="ssiyo",
     url="https://github.com/ssiyo/pwa-enabler",
     packages=find_packages(),

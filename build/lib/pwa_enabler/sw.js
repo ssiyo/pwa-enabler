@@ -1,5 +1,4 @@
 const CACHE_VERSION = "$currentDate";
-localStorage.setItem("CACHE_VERSION", CACHE_VERSION)
 
 // cache files list
 const cf = [

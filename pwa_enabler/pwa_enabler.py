@@ -59,7 +59,7 @@ def create_pwa_files(directoryPath):
 
                     if file == "index.html" and SWregistrationScript not in content:
                         content = content.replace(
-                            "</head>", f"\t{SWregistrationScript}\n\t</head>"
+                            "</body>", f"\t{SWregistrationScript}\n\t</body>"
                         )
 
                     f.seek(0)
@@ -75,11 +75,13 @@ def create_pwa_files(directoryPath):
     default_app_webmanifest = get_resource_text("app.webmanifest")
 
     # file creation
-    with open(directoryPath + "/app.webmanifest", "w") as f:
-        f.write(default_app_webmanifest.replace("$projectName", projectName))
+    if not path.exists(directoryPath + "/app.webmanifest"):
+        with open(directoryPath + "/app.webmanifest", "w") as f:
+            f.write(default_app_webmanifest.replace("$projectName", projectName))
 
-    with open(directoryPath + "/register-sw.js", "w") as f:
-        f.write(default_registration)
+    if not path.exists(directoryPath + "/register-sw.js"):
+        with open(directoryPath + "/register-sw.js", "w") as f:
+            f.write(default_registration)
 
     with open(directoryPath + "/sw.js", "w") as f:
         sortedDirectoryTree = get_sorted_files(file_list, extensions)
